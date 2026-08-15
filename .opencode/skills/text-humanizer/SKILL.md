@@ -72,40 +72,110 @@ In academic mode, zero edits are better than technically unsafe paraphrasing.
 
 # Academic Lock
 
-In academic, research, scientific, statistical, or technical text, technically meaningful wording is LOCKED unless the user explicitly asks to change it.
+In academic, research, scientific, statistical, or technical text, preserve scientifically meaningful **spans** exactly while allowing the surrounding prose to be rewritten naturally.
 
-Do not treat these as stylistic synonyms:
+## Protected-Span Rule
+
+Before rewriting, identify and freeze any span whose wording carries scientific, statistical, methodological, causal, uncertainty, limitation, or technical meaning.
+
+Protected spans may be a word, phrase, clause, statistical expression, citation, or technical construct.
+
+Examples of protected spans include:
 
 ```text
-associated with
+was associated with
+was positively associated with
+was negatively associated with
 correlated with
 predicted
-related to
-differed between
-increased odds of
-decreased odds of
-may
-might
-could
+higher odds
+lower odds
+cross-sectional
+longitudinal
+randomized
+observational
+self-report
+may reflect
+may indicate
 suggests
-indicates
-supports
-is consistent with
-affects
-causes
+does not establish
+does not demonstrate
+cannot determine
+was not examined
+was not measured
 ```
 
-Examples:
+Statistical values and notation are also protected:
 
 ```text
-associated with
+N
+n
+M
+SD
+SE
+CI
+OR
+HR
+RR
+β
+B
+r
+R²
+adjusted R²
+p
+χ²
+F
+t
+df
+%
 ```
 
-must not become:
+Citations, quotations, construct names, model names, and technical terminology are protected unless the user explicitly asks to change them.
+
+## What May Be Rewritten
+
+Everything outside the protected spans may be revised when doing so improves naturalness.
+
+You may safely change, where appropriate:
+
+- sentence openings
+- clause order
+- transition placement
+- ordinary verbs and nouns
+- paragraph rhythm
+- redundant wording
+- generic academic filler
+- repeated sentence templates
+- unnecessary signposting
+- nontechnical connective language
+
+You may combine or split sentences if all protected spans remain intact and the scientific meaning is unchanged.
+
+## Protected-Span Integrity
+
+Do not replace a protected span with a synonym.
+
+For example:
 
 ```text
+was associated with
+```
+
+must remain:
+
+```text
+was associated with
+```
+
+Do not rewrite it as:
+
+```text
+was linked to
 correlated with
+showed a relationship with
 ```
+
+Likewise:
 
 ```text
 greater perseverance
@@ -117,19 +187,47 @@ must not become:
 increased perseverance
 ```
 
-when "increased" could imply change over time.
+if "increased" would imply change over time.
+
+And:
 
 ```text
-predicted
+the findings do not establish that developmental support causes greater perseverance
 ```
 
-must not become:
+must preserve that causal limitation exactly in meaning. If that clause is selected as a protected span, keep it verbatim.
+
+## Example
+
+Input:
 
 ```text
-caused
+Higher perceived developmental support was associated with greater perseverance. Because the study was cross-sectional, the findings do not establish that developmental support causes greater perseverance. The association may reflect several underlying processes that were not examined in this analysis.
 ```
 
-Preserve technical/statistical relationship terminology exactly unless explicitly asked otherwise.
+Possible safe rewrite:
+
+```text
+Higher perceived developmental support was associated with greater perseverance. Because the study was cross-sectional, however, the findings do not establish that developmental support causes greater perseverance. The association may also reflect several underlying processes that were not examined in this analysis.
+```
+
+This is acceptable because the scientifically meaningful spans remain intact while the surrounding prose changes naturally.
+
+Do NOT rewrite it as:
+
+```text
+Higher perceived developmental support was linked to increased perseverance. The cross-sectional design precludes causal conclusions, and the observed relationship could stem from other mechanisms.
+```
+
+That changes protected relationship language, temporal meaning, and limitation wording.
+
+## Minimal Scientific Editing
+
+Do not freeze an entire sentence merely because it contains one technical phrase.
+
+Freeze only the scientifically meaningful span and edit around it when safe.
+
+However, if the entire sentence is scientifically dense and there is no safe stylistic improvement, leave the sentence unchanged.
 
 # Claim-Strength Lock
 
@@ -214,6 +312,26 @@ Do not add new interpretations, mechanisms, recommendations, implications, gener
 
 Improve how the existing idea is expressed. Do not add a new idea.
 
+# Humanization Requirement
+
+This skill must still perform useful stylistic editing when safe.
+
+Do not preserve awkward, repetitive, generic, or overly polished surrounding prose merely because scientific material is present.
+
+The objective is:
+
+```text
+protect scientific meaning
+        +
+rewrite safe surrounding prose naturally
+```
+
+not:
+
+```text
+freeze the whole paragraph
+```
+
 # Natural Writing Rules
 
 Apply only after all preservation rules are satisfied.
@@ -263,12 +381,13 @@ Allow more restructuring, but preserve all substantive content and scientific me
 For theses, papers, reports, methods, results, and discussion.
 
 Academic mode:
-1. Lock technical/statistical terminology.
-2. Lock uncertainty and causal language.
-3. Lock study-design and limitation statements.
-4. Prefer minimal edits.
-5. Do not add interpretation.
-6. If already clear and precise, leave unchanged.
+1. Identify protected scientific spans first.
+2. Keep protected spans verbatim.
+3. Rewrite only surrounding nontechnical prose.
+4. You may adjust sentence structure if protected spans and scientific meaning remain intact.
+5. Prefer natural flow over formulaic academic phrasing.
+6. Do not add interpretation.
+7. If no safe stylistic improvement exists, leave the relevant sentence unchanged.
 
 ## `professional`
 Clear, direct professional prose.
@@ -283,11 +402,24 @@ If no mode is specified, use `natural`.
 Perform internally:
 
 1. Identify exactly what text belongs to the current request.
-2. Lock facts, statistics, terminology, uncertainty, causal language, limitations, scope, and importance.
-3. Decide whether editing is actually needed.
-4. Improve only genuine writing problems.
+2. In academic/research text, identify protected scientific spans.
+3. Freeze those spans before rewriting.
+4. Improve only the surrounding prose that genuinely needs editing.
 5. Compare the revision against the original.
-6. Restore any wording whose change altered scientific or factual meaning.
+6. Restore any protected span that changed.
+7. Confirm that scientific meaning, causal status, uncertainty, and limitations remain unchanged.
+
+# Academic Protected-Span Test
+
+Before rewriting academic or research text:
+
+1. Mark the protected scientific spans.
+2. Ask whether the surrounding prose can be improved safely.
+3. Rewrite only the unprotected wording.
+4. Compare the result against the original.
+5. Restore any protected span that changed.
+
+If all meaningful wording is protected, return the original text unchanged.
 
 # Output Rules
 
@@ -311,6 +443,8 @@ Facts unchanged?                 YES
 Numbers/statistics unchanged?    YES
 Citations unchanged?             YES
 Technical terminology locked?    YES
+Protected spans verbatim?       YES
+Protected-span wording same?     YES
 Relationship terms preserved?    YES
 Causal status unchanged?         YES
 Uncertainty unchanged?           YES
