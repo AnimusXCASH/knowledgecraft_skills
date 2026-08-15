@@ -1,0 +1,87 @@
+[
+  {
+    "id": "author-voice-editor",
+    "description": "Edit an existing draft to match a supplied author voice profile while preserving meaning, facts, numbers, citations, and claim strength. Use when writing is accurate but does not yet sound like the real author.",
+    "slash": false
+  },
+  {
+    "id": "author-voice-profiler",
+    "description": "Build a reusable author voice profile from genuine writing samples such as past posts, emails, notes, articles, or transcripts. Use when repeated writing should consistently sound like a real author rather than a generic persona.",
+    "slash": false
+  },
+  {
+    "id": "content-quality-gate",
+    "description": "Perform a final publication-readiness review for professional or research-grounded content. Use after factual, voice, naturalness, and platform editing to return an APPROVE, REVISE, or BLOCK decision.",
+    "slash": false
+  },
+  {
+    "id": "factuality-guard",
+    "description": "Audit drafted text against source evidence or a claim ledger. Use before publication when writing contains statistics, research findings, dates, named entities, quotations, causal claims, or other externally checkable statements.",
+    "slash": false
+  },
+  {
+    "id": "karpathy-guidelines",
+    "description": "Foundation coding-behavior guidelines adapted from the MIT-licensed multica-ai/andrej-karpathy-skills project. Use when writing, reviewing, debugging, or refactoring code to surface assumptions, prefer simple solutions, keep changes narrowly scoped, and verify success with concrete checks.",
+    "slash": false
+  },
+  {
+    "id": "linkedin-calendar-planner",
+    "description": "Place approved LinkedIn posts into a coherent publishing calendar while balancing themes, post roles, formats, dependencies, time sensitivity, and explicit experiments. Use when the user asks for a posting timeline or multi-week content calendar.",
+    "slash": false
+  },
+  {
+    "id": "linkedin-content-pipeline",
+    "description": "Orchestrate an evidence-grounded LinkedIn content workflow from source material to distinct post ideas, series planning, drafting, voice editing, factual review, quality control, calendar planning, and optional performance learning.",
+    "slash": true
+  },
+  {
+    "id": "linkedin-performance-review",
+    "description": "Analyze LinkedIn post performance data and turn it into cautious, reusable content learnings. Use when impressions, reactions, comments, shares, saves, clicks, profile views, follows, leads, or post history are available.",
+    "slash": false
+  },
+  {
+    "id": "linkedin-platform-review",
+    "description": "Review and lightly edit a LinkedIn post for professional audience fit, mobile readability, opening clarity, formatting, CTA, mentions, hashtags, link treatment, and appropriate format choice without relying on unverified algorithm hacks.",
+    "slash": false
+  },
+  {
+    "id": "linkedin-post-drafter",
+    "description": "Draft a LinkedIn post from a grounded post brief, claim ledger, and optional author voice profile. Use when the topic and evidence are selected and an initial post draft is needed without invented facts or experiences.",
+    "slash": false
+  },
+  {
+    "id": "linkedin-series-architect",
+    "description": "Design a coherent, non-repetitive multi-post LinkedIn series from grounded ideas. Use when planning several posts across days or weeks and when sequence, thematic arcs, varied reader jobs, and format diversity matter.",
+    "slash": false
+  },
+  {
+    "id": "research-batch",
+    "description": "Resume and batch-process only new or unfinished research sources from a local research registry. Use for requests such as process new papers, catch up the research folder, or continue where a previous research-to-content workflow stopped.",
+    "slash": true
+  },
+  {
+    "id": "research-insight-miner",
+    "description": "Generate distinct, evidence-grounded insights and communication angles from grounded research without simply paraphrasing the same finding. Use after source grounding for content ideation or knowledge translation.",
+    "slash": false
+  },
+  {
+    "id": "research-library",
+    "description": "Discover, hash, extract, index, and track local research papers and source files over time. Use when research lives in project or external folders, when new papers arrive, or when the user asks what has already been processed.",
+    "slash": true
+  },
+  {
+    "id": "research-source-grounder",
+    "description": "Convert research papers, reports, notes, transcripts, or other source material into a traceable source card and claim ledger. Use before synthesis, applied translation, or content drafting when factual grounding matters.",
+    "slash": false
+  },
+  {
+    "id": "text-humanizer",
+    "description": "Rewrite text pasted directly into the OpenCode console so it reads naturally, specifically, and consistently with the intended author while preserving meaning, facts, numbers, citations, terminology, and intent. Use for direct human-style editing of pasted prose.",
+    "slash": true
+  },
+  {
+    "id": "text-naturalness-editor",
+    "description": "Conservatively edit drafted prose to remove generic, repetitive, templated, inflated, or overly polished LLM-style phrasing while preserving factual meaning and the existing author voice. Use as a pipeline editing component rather than a detector-evasion tool.",
+    "slash": false
+  }
+]
