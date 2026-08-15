@@ -1,0 +1,48 @@
+# KnowledgeCraft Strict Research Grounding Contract
+
+source_card:
+  source_id: ""
+  title: "Not stated in source"
+  source_type: "Not stated in source"
+  source_date: null
+  authors_or_organization: "Not stated in source"
+  research_question_or_purpose: "Not stated in source"
+  sample_or_context: "Not stated in source"
+  methods: "Not stated in source"
+  summary: ""
+  key_findings: []
+  limitations_explicitly_stated_by_source: []
+  causal_guard: null
+  missing_information: []
+
+claim_ledger:
+  - claim_id: ""
+    claim: ""
+    claim_type: "fact|inference|opinion|proposal"
+    role: "context|sample|method|finding|limitation|interpretation|recommendation"
+    evidence_location: ""
+    confidence: "high|medium|low"
+    allowed_for_reuse: true
+    relationship_language: null
+    causal_status: "causal|non-causal|not-established|not-applicable|unclear"
+    notes: null
+
+strict_defaults:
+  source_only: true
+  model_generated_interpretation: false
+  model_generated_limitations: false
+  model_generated_mechanisms: false
+  model_generated_recommendations: false
+  preserve_relationship_terminology_exactly: true
+  preserve_source_wording_when_scientifically_meaningful: true
+  preserve_compound_claim_structure: true
+  preserve_causal_strength: true
+  preserve_causal_non_establishment: true
+  do_not_infer_measurement_method_from_ordinary_language: true
+  do_not_invent_metadata_or_titles: true
+  do_not_add_unsupported_notes: true
+  preserve_uncertainty: true
+  preserve_statistics: true
+  missing_information_value: "Not stated in source"
+  default_output_directory: ".knowledgecraft/research/grounded/"
+  never_write_outputs_inside_opencode: true
