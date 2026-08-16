@@ -600,7 +600,161 @@ Do not use `.knowledgecraft/research/grounded/` as a place to manually store raw
 
 ---
 
-# 15. Validate Your Installation
+# 15. Resetting the KnowledgeCraft Workspace
+
+KnowledgeCraft stores generated workflow state under:
+
+```text
+.knowledgecraft/
+```
+
+This can include:
+
+- research registry state;
+- extracted source text;
+- grounded source cards and claim ledgers;
+- research insights;
+- writing artifacts;
+- LinkedIn drafts;
+- factuality and quality artifacts;
+- calendars;
+- analytics;
+- scratch/integration outputs.
+
+The installed skills are separate:
+
+```text
+.opencode/skills/
+```
+
+and your recommended research inputs are separate:
+
+```text
+papers/
+```
+
+## Full reset
+
+From the project root:
+
+```powershell
+Remove-Item -Recurse -Force .knowledgecraft
+```
+
+KnowledgeCraft will recreate required directories when workflows run again.
+
+After a full reset, the registry and lifecycle history are gone. Papers still present in `./papers/` will therefore be treated as new/unprocessed sources on the next scan.
+
+## Safer helper script
+
+KnowledgeCraft includes:
+
+```text
+scripts/reset-workspace.ps1
+```
+
+Full reset:
+
+```powershell
+.\scripts\reset-workspace.ps1 -Full
+```
+
+Research state only:
+
+```powershell
+.\scripts\reset-workspace.ps1 -Research
+```
+
+Content state only:
+
+```powershell
+.\scripts\reset-workspace.ps1 -Content
+```
+
+Analytics only:
+
+```powershell
+.\scripts\reset-workspace.ps1 -Analytics
+```
+
+Scratch state only:
+
+```powershell
+.\scripts\reset-workspace.ps1 -Scratch
+```
+
+The helper asks for confirmation. To suppress the prompt when you intentionally want the deletion:
+
+```powershell
+.\scripts\reset-workspace.ps1 -Full -Force
+```
+
+## Manual partial reset
+
+Research only:
+
+```powershell
+Remove-Item -Recurse -Force .knowledgecraft\research
+```
+
+Content/LinkedIn state only:
+
+```powershell
+Remove-Item -Recurse -Force .knowledgecraft\content
+```
+
+Analytics only:
+
+```powershell
+Remove-Item -Recurse -Force .knowledgecraft\analytics
+```
+
+Scratch only:
+
+```powershell
+Remove-Item -Recurse -Force .knowledgecraft\scratch
+```
+
+## What a normal reset must not delete
+
+Do not remove these as part of a normal workspace reset:
+
+```text
+.opencode/skills/
+AGENTS.md
+papers/
+```
+
+unless you intentionally want to remove the installed skills, project routing configuration, or original research sources.
+
+## Fresh-start example
+
+Keep your source paper:
+
+```text
+./papers/my-paper.pdf
+```
+
+Reset generated state:
+
+```powershell
+.\scripts\reset-workspace.ps1 -Full
+```
+
+Then start again:
+
+```text
+/research-batch
+
+Process all new and unfinished research in ./papers through ideas_created.
+```
+
+The source paper remains untouched; only KnowledgeCraft-generated state was cleared.
+
+---
+
+# 16. Validate Your Installation
+
 
 From the KnowledgeCraft repository:
 
@@ -624,7 +778,7 @@ See `TESTING.md` for the validation model.
 
 ---
 
-# 16. Quick Decision Guide
+# 17. Quick Decision Guide
 
 ```text
 I have a paper and want research knowledge.

@@ -271,6 +271,64 @@ PASTE TEXT HERE
 
 ---
 
+## Reset KnowledgeCraft generated state
+
+### Full reset
+
+Safe helper:
+
+```powershell
+.\scripts\reset-workspace.ps1 -Full
+```
+
+Non-interactive:
+
+```powershell
+.\scripts\reset-workspace.ps1 -Full -Force
+```
+
+Manual equivalent:
+
+```powershell
+Remove-Item -Recurse -Force .knowledgecraft
+```
+
+This keeps:
+
+```text
+.opencode/skills/
+AGENTS.md
+papers/
+```
+
+After a full reset, local source registry/lifecycle state is removed, so papers in `./papers/` will be treated as unprocessed when scanned again.
+
+### Research only
+
+```powershell
+.\scripts\reset-workspace.ps1 -Research
+```
+
+### Content only
+
+```powershell
+.\scripts\reset-workspace.ps1 -Content
+```
+
+### Analytics only
+
+```powershell
+.\scripts\reset-workspace.ps1 -Analytics
+```
+
+### Scratch only
+
+```powershell
+.\scripts\reset-workspace.ps1 -Scratch
+```
+
+---
+
 ## Repository validation
 
 ```powershell

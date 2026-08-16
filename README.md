@@ -282,6 +282,40 @@ Start here:
 - [`CONTRIBUTING.md`](CONTRIBUTING.md) — contribution rules
 - [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) — attribution
 
+## Resetting generated state
+
+KnowledgeCraft working state under:
+
+```text
+.knowledgecraft/
+```
+
+is generated and can be reset without deleting the installed skills or source papers.
+
+Full reset:
+
+```powershell
+Remove-Item -Recurse -Force .knowledgecraft
+```
+
+Or use the safer helper:
+
+```powershell
+.\scripts\reset-workspace.ps1 -Full
+```
+
+This does **not** remove:
+
+```text
+.opencode/skills/
+AGENTS.md
+papers/
+```
+
+After a full reset, the local registry and lifecycle state are gone, so papers in `./papers/` will be treated as unprocessed when you start again.
+
+See `GETTING_STARTED.md` for partial reset options.
+
 ## Validation
 
 Run the entire deterministic repository check:
