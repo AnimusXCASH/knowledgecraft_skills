@@ -1,0 +1,64 @@
+KnowledgeCraft Reset Documentation Patch
+
+FILES
+-----
+README.md
+GETTING_STARTED.md
+COMMANDS.md
+scripts/reset-workspace.ps1
+
+TARGET
+------
+Extract/copy into the root of:
+
+D:\knowledgecraft_skills
+
+The three Markdown files are updated versions from the latest documentation patch.
+The PowerShell helper is new.
+
+REVIEW
+------
+git diff -- README.md GETTING_STARTED.md COMMANDS.md scripts/reset-workspace.ps1
+
+TEST
+----
+Repository validation:
+
+.\scripts\check-all.ps1
+
+Try a non-destructive missing-target case if desired, or inspect the script before using it.
+
+USAGE
+-----
+Full reset:
+.\scripts\reset-workspace.ps1 -Full
+
+Research only:
+.\scripts\reset-workspace.ps1 -Research
+
+Content only:
+.\scripts\reset-workspace.ps1 -Content
+
+Analytics only:
+.\scripts\reset-workspace.ps1 -Analytics
+
+Scratch only:
+.\scripts\reset-workspace.ps1 -Scratch
+
+Add -Force to skip the RESET confirmation prompt.
+
+IMPORTANT
+---------
+A full reset deletes generated .knowledgecraft state, including the local research registry.
+It does NOT delete:
+- .opencode/skills/
+- AGENTS.md
+- papers/
+
+After a full reset, papers still in ./papers/ will be seen as unprocessed/new when scanned again.
+
+SUGGESTED COMMIT
+----------------
+git add README.md GETTING_STARTED.md COMMANDS.md scripts/reset-workspace.ps1
+git commit -m "Document and add KnowledgeCraft workspace reset"
+git push
