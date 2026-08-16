@@ -355,20 +355,113 @@ The batch skill coordinates state; specialist skills own substantive work.
 
 ## Batch Reporting
 
-After processing, provide a concise deterministic report.
+After processing, create a machine-readable batch report before giving the user-facing summary.
 
-Include:
+Default temporary report location:
 
-- number of sources inspected;
-- number newly registered;
-- number completed to requested target;
-- number already at target or beyond;
-- number skipped/ignored;
-- number failed;
-- failed source IDs with exact stage/error when any;
-- final target stage.
+`.knowledgecraft/scratch/research-batch-report.yaml`
 
-For each processed source, retain source ID and final status.
+Use this contract:
+
+```yaml
+batch_report:
+  target_stage: "ideas_created"
+  sources:
+    - source_id: "SRC-..."
+      start: "new"
+      end: "ideas_created"
+      disposition: "processed|already_complete|ignored|failed"
+      actions: []
+      error: null
+  summary:
+    sources_inspected: 0
+    sources_processed: 0
+    sources_already_complete: 0
+    sources_ignored: 0
+    sources_failed: 0
+  forced_transitions_used: 0
+  duplicate_source_records: 0
+  second_run_idempotence: "PASS|FAIL"
+  batch_result: "PASS|FAIL"
+```
+
+### Disposition Definitions
+
+Use exactly one disposition per inspected source:
+
+- `processed`: the source required one or more workflow actions during this batch and successfully reached the requested target stage;
+- `already_complete`: the source was already at or beyond the requested target and required no processing action;
+- `ignored`: the source was intentionally skipped because its registry status is `ignored`;
+- `failed`: the source did not reach the requested target because processing failed.
+
+These four dispositions are mutually exclusive and must partition the inspected sources.
+
+An ignored source is **not** processed.
+
+An already-complete source is **not** processed.
+
+A failed source is counted under `failed`, not under successful `processed`.
+
+### Summary Consistency
+
+Derive summary counts from the final per-source dispositions.
+
+Do not manually estimate or carry forward counts from working notes.
+
+Therefore:
+
+`sources_inspected = processed + already_complete + ignored + failed`
+
+For the canonical mixed-state example:
+
+- A `new` -> processed;
+- B `extracted` -> processed;
+- C `grounded` -> processed;
+- D `ideas_created` -> already_complete;
+- E `ignored` -> ignored;
+
+the correct summary is:
+
+```yaml
+sources_inspected: 5
+sources_processed: 3
+sources_already_complete: 1
+sources_ignored: 1
+sources_failed: 0
+```
+
+### Deterministic Batch-Report Validation
+
+Before reporting completion, run:
+
+```powershell
+py ".opencode/skills/research-batch/scripts/validate_batch_report.py" ".knowledgecraft/scratch/research-batch-report.yaml"
+```
+
+If validation returns `FAIL`:
+
+1. do not report batch completion;
+2. read every validation error;
+3. repair only the affected report fields;
+4. rerun the validator;
+5. continue until `PASS`.
+
+The validator checks:
+
+- unique source IDs in the report;
+- valid mutually exclusive dispositions;
+- processed/already-complete/ignored action consistency;
+- summary counts derived from dispositions;
+- inspected-source partition arithmetic;
+- failed-source error presence;
+- forced-transition count;
+- duplicate-source count;
+- second-run idempotence;
+- consistency of final `batch_result`.
+
+Only after validator `PASS` should the user-facing summary be produced.
+
+For each source, retain source ID, start state, end state, disposition, and actions.
 
 Do not add a fresh scientific summary of every paper unless the user asks for one.
 
@@ -400,3 +493,7 @@ Before reporting batch completion, verify:
 - failures isolated and reported accurately? YES
 - already-complete sources not redundantly reprocessed? YES
 - default processing stopped at `ideas_created`? YES
+- ignored/already-complete sources excluded from processed count? YES
+- per-source dispositions partition inspected sources? YES
+- batch-report validator executed? YES
+- batch-report validator returned PASS? YES
