@@ -1,8 +1,52 @@
 # KnowledgeCraft Workflows
 
-This document describes practical ways to use the KnowledgeCraft skill collection without requiring users to understand every skill first.
+KnowledgeCraft can be used in three primary ways:
 
-The pipeline should always inspect existing state before running unnecessary stages.
+```text
+1. Academic / Research
+2. LinkedIn / Content
+3. Combined Research → LinkedIn
+```
+
+This document describes the workflow contracts behind those modes.
+
+For practical prompt examples, see:
+
+```text
+GETTING_STARTED.md
+```
+
+---
+
+# Mode 1 — Academic / Research
+
+Use this mode for:
+
+- academic papers;
+- PhD knowledge work;
+- evidence synthesis;
+- research libraries;
+- claim extraction;
+- research insight generation;
+- applied-practice translation.
+
+Core flow:
+
+```text
+source
+  ↓
+research-library
+  ↓
+research-source-grounder
+  ↓
+research-insight-miner
+  ↓
+reusable research knowledge
+```
+
+The research layer operates independently of LinkedIn.
+
+---
 
 ## 1. Academic source → grounded knowledge
 
@@ -35,6 +79,8 @@ Key guarantees:
 - causal language is not strengthened;
 - limitations remain attached.
 
+---
+
 ## 2. Multiple sources → research knowledge base
 
 Use when several papers/documents must be processed consistently.
@@ -48,7 +94,41 @@ research-library
 
 The batch orchestrator should be used for research-stage batching, not LinkedIn drafting.
 
-Use analysis-specific artifacts rather than a universal summary when source differences matter.
+Do not force all sources into one universal conclusion when source-specific differences matter.
+
+---
+
+# Mode 2 — LinkedIn / Content
+
+Use this mode when grounded evidence or approved insights already exist.
+
+Core flow:
+
+```text
+grounded evidence / insights
+        ↓
+linkedin-series-architect
+        ↓
+linkedin-post-drafter
+        ↓
+author-voice-editor
+        ↓
+text-naturalness-editor
+        ↓
+linkedin-platform-review
+        ↓
+factuality-guard
+        ↓
+content-quality-gate
+        ↓
+qa_approved
+        ↓
+linkedin-calendar-planner
+```
+
+Not every stage must run every time.
+
+---
 
 ## 3. Grounded research → LinkedIn series
 
@@ -77,6 +157,8 @@ The architect creates:
 
 Do not draft the entire series before architecture is valid.
 
+---
+
 ## 4. Series brief → LinkedIn draft
 
 ```text
@@ -102,6 +184,8 @@ needs_input
 
 Do not fabricate an anecdote.
 
+---
+
 ## 5. Draft → author-aligned post
 
 If a validated author profile already exists:
@@ -123,6 +207,8 @@ If no genuine samples exist:
 - either skip author-specific voice editing;
 - or request writing samples when voice matching is important.
 
+---
+
 ## 6. Draft → cleaner natural prose
 
 Use:
@@ -140,6 +226,8 @@ This is a conservative meaning-preserving edit.
 Use it only when explicitly requested or when its protected-span workflow is specifically appropriate.
 
 It is not part of the automatic default pipeline.
+
+---
 
 ## 7. Draft → publication-ready LinkedIn post
 
@@ -167,13 +255,13 @@ qa_approved
 
 Platform review PASS alone is not approval.
 
+---
+
 ## 8. Quality REVISE → local repair
 
 Do not restart the entire workflow.
 
 Route to the smallest relevant owner.
-
-Examples:
 
 ### Voice issue
 
@@ -217,6 +305,8 @@ research-insight-miner
 
 After a material text revision, stale QA must not be reused.
 
+---
+
 ## 9. QA-approved posts → publishing calendar
 
 ```text
@@ -256,6 +346,8 @@ Thursday morning
 
 the planner should preserve a broad window rather than silently creating `09:00`.
 
+---
+
 ## 10. Calendar with blocked items
 
 A correct calendar can contain mixed states:
@@ -281,6 +373,8 @@ can still be a valid completed planning artifact.
 
 A true hard collision should remain visible until resolved.
 
+---
+
 ## 11. Scheduled → published
 
 KnowledgeCraft does not infer publication.
@@ -296,6 +390,8 @@ scheduled
 Do not mark a post published simply because its scheduled date has passed.
 
 Publication must be confirmed.
+
+---
 
 ## 12. Published posts → performance learning
 
@@ -334,9 +430,13 @@ linkedin-series-architect
 
 without becoming permanent platform rules.
 
-## 13. Full research → LinkedIn pipeline
+---
 
-For a new evidence-based multi-post project:
+# Mode 3 — Combined Research → LinkedIn
+
+Use this when the goal starts with a source and ends with publication-ready content.
+
+Core flow:
 
 ```text
 research-library
@@ -356,11 +456,73 @@ research-library
 
 It should not perform specialist logic itself.
 
-## 14. Resume an existing workflow
+---
+
+## 13. Full evidence → LinkedIn workflow
+
+For a new evidence-based multi-post project:
+
+```text
+source
+→ deterministic registration
+→ grounding
+→ validated insights
+→ series architecture
+→ one-post drafting
+→ optional voice/naturalness editing
+→ LinkedIn presentation review
+→ factuality review
+→ quality approval
+→ optional scheduling
+```
+
+This is the workflow used by the KnowledgeCraft end-to-end LinkedIn integration test.
+
+---
+
+# Cross-Mode Workflow Behavior
+
+The following rules apply whether you use Research, LinkedIn, or Combined mode.
+
+---
+
+## 14. Automatic routing vs specialist invocation
+
+Use **automatic/outcome-first routing** when you know the desired result:
+
+```text
+Turn this paper into a LinkedIn series.
+```
+
+```text
+Get this draft ready to publish.
+```
+
+```text
+Continue from the latest valid stage.
+```
+
+Use a **specialist directly** when you know the exact operation:
+
+```text
+Use research-source-grounder on SRC-123.
+```
+
+```text
+Run factuality-guard on POST-002.
+```
+
+```text
+Run linkedin-calendar-planner on current qa_approved posts.
+```
+
+The root routing/pipeline should not duplicate specialist logic.
+
+---
+
+## 15. Resume an existing workflow
 
 The pipeline should start from the latest valid stage.
-
-Examples:
 
 ### Already grounded
 
@@ -396,7 +558,9 @@ qa_approved
 
 Do not rerun research merely because the pipeline is invoked again.
 
-## 15. Source revision
+---
+
+## 16. Source revision
 
 If `research-library` detects a materially changed source:
 
@@ -412,7 +576,9 @@ Resume from the earliest invalid stage.
 
 Do not restart unrelated items.
 
-## 16. Failure isolation
+---
+
+## 17. Failure isolation
 
 Suppose a three-post series has:
 
@@ -432,7 +598,9 @@ POST-3 → repair at linkedin-post-drafter
 
 Do not block POST-1 simply because POST-2 and POST-3 have issues.
 
-## 17. End-to-end integration test
+---
+
+## 18. End-to-end integration test
 
 KnowledgeCraft has been tested through a synthetic evidence-to-LinkedIn workflow that produced:
 
