@@ -1,6 +1,6 @@
 # KnowledgeCraft Workflows
 
-KnowledgeCraft can be used in three primary ways:
+KnowledgeCraft supports three primary modes:
 
 ```text
 1. Academic / Research
@@ -8,112 +8,131 @@ KnowledgeCraft can be used in three primary ways:
 3. Combined Research → LinkedIn
 ```
 
-This document describes the workflow contracts behind those modes.
-
-For practical prompt examples, see:
+For copy-paste usage, see:
 
 ```text
 GETTING_STARTED.md
+COMMANDS.md
 ```
+
+---
+
+# Input and Output Convention
+
+Recommended research input folder:
+
+```text
+./papers/
+```
+
+Example:
+
+```text
+your-project/
+├── papers/
+│   └── my-paper.pdf
+├── .opencode/skills/
+└── .knowledgecraft/
+```
+
+Raw source:
+
+```text
+./papers/my-paper.pdf
+```
+
+Generated research state:
+
+```text
+.knowledgecraft/research/
+```
+
+A source may live elsewhere if the user supplies its path. The workflow should track the actual source path rather than requiring duplication inside `.knowledgecraft/`.
 
 ---
 
 # Mode 1 — Academic / Research
 
-Use this mode for:
+Use this for:
 
+- research knowledge bases;
 - academic papers;
-- PhD knowledge work;
+- PhD workflows;
 - evidence synthesis;
-- research libraries;
-- claim extraction;
-- research insight generation;
+- source-faithful claim extraction;
+- research insights;
 - applied-practice translation.
 
 Core flow:
 
 ```text
-source
-  ↓
+./papers/my-paper.pdf
+        ↓
 research-library
-  ↓
+        ↓
 research-source-grounder
-  ↓
+        ↓
 research-insight-miner
-  ↓
+        ↓
 reusable research knowledge
 ```
 
-The research layer operates independently of LinkedIn.
-
----
-
-## 1. Academic source → grounded knowledge
-
-Use when the goal is to convert a paper or source into a reliable research artifact.
+## One source
 
 ```text
-research-library
-→ research-source-grounder
+Process ./papers/my-paper.pdf for my research knowledge base.
 ```
 
-Optional next stage:
+Expected generated areas:
 
 ```text
-→ research-insight-miner
+.knowledgecraft/research/registry/
+.knowledgecraft/research/extracted/
+.knowledgecraft/research/grounded/
+.knowledgecraft/research/insights/
 ```
 
-Typical outputs:
+Grounding must preserve:
+
+- null findings;
+- design terminology;
+- relationship direction;
+- uncertainty;
+- limitations;
+- causal strength.
+
+## Multiple sources
 
 ```text
-.knowledgecraft/research/grounded/<source-id>-source-card.md
-.knowledgecraft/research/grounded/<source-id>-claim-ledger.yaml
-.knowledgecraft/research/insights/<source-id>-insights.yaml
+/research-batch
+
+Process all new and unfinished research in ./papers through ideas_created.
 ```
 
-Key guarantees:
-
-- source identity is stable;
-- claims are traceable;
-- null results remain null;
-- causal language is not strengthened;
-- limitations remain attached.
-
----
-
-## 2. Multiple sources → research knowledge base
-
-Use when several papers/documents must be processed consistently.
+Normal research-batch stopping point:
 
 ```text
-research-library
-→ research-batch
-→ research-source-grounder
-→ research-insight-miner
+ideas_created
 ```
 
-The batch orchestrator should be used for research-stage batching, not LinkedIn drafting.
-
-Do not force all sources into one universal conclusion when source-specific differences matter.
+unless the user explicitly requests downstream content creation.
 
 ---
 
 # Mode 2 — LinkedIn / Content
 
-Use this mode when grounded evidence or approved insights already exist.
-
-Core flow:
+Use this when grounded evidence or validated insights already exist.
 
 ```text
-grounded evidence / insights
+grounded claims / insights
         ↓
 linkedin-series-architect
         ↓
 linkedin-post-drafter
         ↓
-author-voice-editor
+author-voice-editor              [when applicable]
         ↓
-text-naturalness-editor
+text-naturalness-editor          [when useful]
         ↓
 linkedin-platform-review
         ↓
@@ -123,234 +142,59 @@ content-quality-gate
         ↓
 qa_approved
         ↓
-linkedin-calendar-planner
+linkedin-calendar-planner        [when scheduling requested]
 ```
 
-Not every stage must run every time.
+`text-humanizer` is not an automatic pipeline stage.
 
----
+## Series planning
 
-## 3. Grounded research → LinkedIn series
+`linkedin-series-architect` owns:
 
-Use when the source is already grounded and insights exist.
-
-```text
-research-insight-miner
-→ linkedin-series-architect
-```
-
-If insights are already valid:
-
-```text
-linkedin-series-architect
-```
-
-The architect creates:
-
-- series role;
+- multi-post decomposition;
 - reader jobs;
-- claim allocation;
-- insight allocation;
+- claim/insight allocation;
 - dependencies;
-- overlap assessment;
-- one drafting brief per post.
+- overlap control;
+- drafting briefs.
 
-Do not draft the entire series before architecture is valid.
+## Drafting
 
----
+`linkedin-post-drafter` converts one ready brief into one evidence-safe draft.
 
-## 4. Series brief → LinkedIn draft
-
-```text
-linkedin-post-drafter
-```
-
-One ready brief should produce one draft artifact.
-
-The drafter must preserve:
-
-- allowed claim IDs;
-- allowed insight IDs;
-- causal constraints;
-- null findings;
-- descriptive relationships;
-- missing author-input state.
-
-If a story brief lacks genuine personal material:
+Missing personal story material should produce:
 
 ```text
 needs_input
 ```
 
-Do not fabricate an anecdote.
+not a fabricated anecdote.
 
----
+## Publication preparation
 
-## 5. Draft → author-aligned post
-
-If a validated author profile already exists:
-
-```text
-author-voice-editor
-```
-
-If genuine writing samples exist but there is no profile:
-
-```text
-author-voice-profiler
-→ author-voice-editor
-```
-
-If no genuine samples exist:
-
-- do not fabricate a profile;
-- either skip author-specific voice editing;
-- or request writing samples when voice matching is important.
-
----
-
-## 6. Draft → cleaner natural prose
-
-Use:
-
-```text
-text-naturalness-editor
-```
-
-when the prose is mechanically repetitive, generic, or unnecessarily stiff.
-
-This is a conservative meaning-preserving edit.
-
-`text-humanizer` is separate.
-
-Use it only when explicitly requested or when its protected-span workflow is specifically appropriate.
-
-It is not part of the automatic default pipeline.
-
----
-
-## 7. Draft → publication-ready LinkedIn post
-
-Recommended order:
+Recommended QA order:
 
 ```text
 linkedin-platform-review
 → factuality-guard
 → content-quality-gate
 ```
-
-Why this order?
-
-Platform review can alter presentation, so factuality should assess the final presented wording rather than an older draft.
 
 Approval requires:
 
 ```text
 factuality PASS
 +
-content-quality-gate APPROVE
+quality APPROVE
 =
 qa_approved
 ```
 
-Platform review PASS alone is not approval.
+## Scheduling
 
----
+Only `qa_approved` posts may become `scheduled`.
 
-## 8. Quality REVISE → local repair
-
-Do not restart the entire workflow.
-
-Route to the smallest relevant owner.
-
-### Voice issue
-
-```text
-content-quality-gate
-→ author-voice-editor
-→ factuality-guard
-→ content-quality-gate
-```
-
-### Naturalness issue
-
-```text
-content-quality-gate
-→ text-naturalness-editor
-→ factuality-guard
-→ content-quality-gate
-```
-
-### Platform presentation issue
-
-```text
-linkedin-platform-review
-→ repair
-→ factuality-guard
-→ content-quality-gate
-```
-
-### Unsupported claim
-
-```text
-factuality-guard
-→ linkedin-post-drafter
-```
-
-or, if the problem comes from upstream interpretation:
-
-```text
-research-insight-miner
-```
-
-After a material text revision, stale QA must not be reused.
-
----
-
-## 9. QA-approved posts → publishing calendar
-
-```text
-linkedin-calendar-planner
-```
-
-Only:
-
-```text
-qa_approved
-```
-
-posts may become:
-
-```text
-scheduled
-```
-
-The planner handles:
-
-- cadence;
-- fixed dates;
-- blackout dates;
-- dependencies;
-- time-sensitive windows;
-- existing locked commitments;
-- hard collisions;
-- unresolved scheduling decisions.
-
-It should not invent exact "best times."
-
-If the user says:
-
-```text
-Thursday morning
-```
-
-the planner should preserve a broad window rather than silently creating `09:00`.
-
----
-
-## 10. Calendar with blocked items
-
-A correct calendar can contain mixed states:
+A calendar may contain:
 
 ```text
 scheduled
@@ -360,83 +204,19 @@ blocked_by_dependency
 expired
 ```
 
-Planner correctness is not identical to every-item readiness.
-
-For example:
-
-```text
-POST-1 scheduled
-POST-2 needs_decision
-```
-
-can still be a valid completed planning artifact.
-
-A true hard collision should remain visible until resolved.
-
----
-
-## 11. Scheduled → published
-
-KnowledgeCraft does not infer publication.
-
-Normal workflow:
-
-```text
-scheduled
-→ human / authorized publisher
-→ published
-```
-
-Do not mark a post published simply because its scheduled date has passed.
-
-Publication must be confirmed.
-
----
-
-## 12. Published posts → performance learning
-
-```text
-linkedin-performance-review
-```
-
-Use actual supplied metrics.
-
-The skill:
-
-- preserves raw values;
-- distinguishes zero from missing;
-- states denominators explicitly;
-- calculates valid rates;
-- considers observation windows;
-- considers exposure;
-- keeps paid/organic context visible;
-- retains outliers;
-- avoids causal and algorithmic claims.
-
-Learning classes:
-
-```text
-strong_observation
-tentative_pattern
-test_next
-insufficient_data
-```
-
-Qualified learnings may feed back into:
-
-```text
-linkedin-series-architect
-```
-
-without becoming permanent platform rules.
+Do not invent exact "best posting times."
 
 ---
 
 # Mode 3 — Combined Research → LinkedIn
 
-Use this when the goal starts with a source and ends with publication-ready content.
+Start with a source:
 
-Core flow:
+```text
+./papers/my-paper.pdf
+```
+
+Then:
 
 ```text
 research-library
@@ -444,65 +224,45 @@ research-library
 → research-insight-miner
 → linkedin-series-architect
 → linkedin-post-drafter
-→ author-voice-editor          [when applicable]
-→ text-naturalness-editor      [when needed]
+→ relevant voice/naturalness editing
 → linkedin-platform-review
 → factuality-guard
 → content-quality-gate
-→ linkedin-calendar-planner    [when scheduling requested]
+→ linkedin-calendar-planner        [optional]
 ```
 
-`linkedin-content-pipeline` orchestrates this flow.
+Use `linkedin-content-pipeline` for outcome-first orchestration.
 
-It should not perform specialist logic itself.
+Example:
+
+```text
+/linkedin-content-pipeline
+
+Process ./papers/my-paper.pdf into my research knowledge base and turn the validated insights into a three-post LinkedIn series.
+
+Prepare all posts through final QA.
+Do not publish.
+```
 
 ---
 
-## 13. Full evidence → LinkedIn workflow
+# Automatic Routing vs Direct Skill Use
 
-For a new evidence-based multi-post project:
-
-```text
-source
-→ deterministic registration
-→ grounding
-→ validated insights
-→ series architecture
-→ one-post drafting
-→ optional voice/naturalness editing
-→ LinkedIn presentation review
-→ factuality review
-→ quality approval
-→ optional scheduling
-```
-
-This is the workflow used by the KnowledgeCraft end-to-end LinkedIn integration test.
-
----
-
-# Cross-Mode Workflow Behavior
-
-The following rules apply whether you use Research, LinkedIn, or Combined mode.
-
----
-
-## 14. Automatic routing vs specialist invocation
-
-Use **automatic/outcome-first routing** when you know the desired result:
+Use automatic routing when you specify an outcome:
 
 ```text
-Turn this paper into a LinkedIn series.
+Process these papers for my research knowledge base.
 ```
 
 ```text
-Get this draft ready to publish.
+Turn this paper into a three-post LinkedIn series.
 ```
 
 ```text
-Continue from the latest valid stage.
+Get POST-002 ready to publish.
 ```
 
-Use a **specialist directly** when you know the exact operation:
+Use a specialist directly when you know the exact stage:
 
 ```text
 Use research-source-grounder on SRC-123.
@@ -516,107 +276,149 @@ Run factuality-guard on POST-002.
 Run linkedin-calendar-planner on current qa_approved posts.
 ```
 
-The root routing/pipeline should not duplicate specialist logic.
+The orchestrator should inspect state first and run only the minimum missing stages.
 
 ---
 
-## 15. Resume an existing workflow
+# Resume Semantics
 
-The pipeline should start from the latest valid stage.
+```text
+new
+→ research-library / extraction
+```
 
-### Already grounded
+```text
+extracted
+→ research-source-grounder
+```
 
 ```text
 grounded
 → research-insight-miner
 ```
 
-### Insights already valid
-
 ```text
 ideas_created
 → linkedin-series-architect
 ```
-
-### Series plan already valid
 
 ```text
 series_planned
 → linkedin-post-drafter
 ```
 
-### Draft already valid
-
-Continue at the next required editing/review stage.
-
-### QA already valid + calendar requested
+```text
+drafted
+→ remaining editing/QA
+```
 
 ```text
 qa_approved
-→ linkedin-calendar-planner
+→ scheduling, if requested
 ```
 
-Do not rerun research merely because the pipeline is invoked again.
+Do not rerun valid upstream work unnecessarily.
 
 ---
 
-## 16. Source revision
+# Revisions
 
-If `research-library` detects a materially changed source:
+A material source revision may invalidate affected:
 
 ```text
-source revision
-→ invalidate affected grounding
-→ invalidate affected insights
-→ invalidate affected content
-→ invalidate affected QA
+grounding
+→ insights
+→ series
+→ drafts
+→ QA
 ```
 
-Resume from the earliest invalid stage.
+A material text revision after QA requires:
 
-Do not restart unrelated items.
+```text
+factuality-guard
+→ content-quality-gate
+```
+
+again.
+
+Only affected items should be rerun.
 
 ---
 
-## 17. Failure isolation
+# Publication Boundary
 
-Suppose a three-post series has:
+Normal boundary:
+
+```text
+scheduled
+→ human / authorized publisher
+→ published
+```
+
+A scheduled date passing does not prove publication.
+
+---
+
+# Performance Feedback Loop
+
+```text
+published posts
+→ linkedin-performance-review
+→ qualified learnings
+→ future series planning
+```
+
+Learning classes remain:
+
+```text
+strong_observation
+tentative_pattern
+test_next
+insufficient_data
+```
+
+Do not convert observational patterns into platform rules or causal claims.
+
+---
+
+# Failure Isolation
+
+For three posts:
 
 ```text
 POST-1 ready
 POST-2 needs personal story input
-POST-3 draft validator FAIL
+POST-3 validator FAIL
 ```
 
-Correct behavior:
+correct behavior is:
 
 ```text
 POST-1 → continue
 POST-2 → needs_input
-POST-3 → repair at linkedin-post-drafter
+POST-3 → local repair
 ```
 
-Do not block POST-1 simply because POST-2 and POST-3 have issues.
+Do not block unrelated valid items.
 
 ---
 
-## 18. End-to-end integration test
+# End-to-End Validation
 
-KnowledgeCraft has been tested through a synthetic evidence-to-LinkedIn workflow that produced:
+KnowledgeCraft has been exercised through a synthetic research-to-LinkedIn integration flow that produced:
 
 ```text
-1 source
-→ deterministic source registration
+1 registered source
 → grounding
 → insights
 → author voice profile
 → 3-post series
 → 3 drafts
-→ voice edits
-→ naturalness edits
-→ platform reviews
+→ voice/naturalness refinement
+→ platform review
 → factuality PASS
-→ content-quality APPROVE
+→ quality APPROVE
 → 3 qa_approved posts
 → 3 scheduled posts
 ```
@@ -624,5 +426,3 @@ KnowledgeCraft has been tested through a synthetic evidence-to-LinkedIn workflow
 No post was marked published.
 
 The human publication boundary remained intact.
-
-This integration pattern should be reused when validating future major changes to the LinkedIn subsystem.

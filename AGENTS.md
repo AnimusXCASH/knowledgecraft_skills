@@ -134,6 +134,77 @@ Recommended working structure:
 
 Create these directories when required.
 
+
+# User Research Input Location
+
+KnowledgeCraft separates **user-provided source files** from **generated research artifacts**.
+
+Recommended default input folder:
+
+```text
+papers/
+```
+
+Example:
+
+```text
+<project>/
+├── papers/
+│   ├── paper-1.pdf
+│   └── paper-2.pdf
+├── .opencode/
+│   └── skills/
+└── .knowledgecraft/
+```
+
+When the user refers to:
+
+```text
+./papers
+papers/
+the research folder
+my papers
+```
+
+and no different path is specified, treat the project-root `papers/` directory as the recommended research-source location.
+
+Do not require the user to put raw papers inside `.knowledgecraft/`.
+
+`.knowledgecraft/` is generated state/output.
+
+If the user provides an explicit relative or absolute path, use that path instead of forcing the file into `papers/`.
+
+For source ingestion, the normal sequence is:
+
+```text
+user source file
+    ↓
+research-library
+    ↓
+registry / extraction state
+    ↓
+research-source-grounder
+    ↓
+research-insight-miner
+```
+
+Do not manually copy raw source files into:
+
+```text
+.knowledgecraft/research/grounded/
+.knowledgecraft/research/insights/
+```
+
+unless a specific skill contract explicitly requires a managed copy.
+
+When scanning a default local research folder, prefer:
+
+```text
+./papers
+```
+
+unless the user names another folder.
+
 # Hard Output Boundary
 
 Never store generated user/project artifacts inside:

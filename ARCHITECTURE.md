@@ -59,6 +59,51 @@ Typical structure:
 
 Generated artifacts should not be written into `.opencode/skills/`.
 
+
+## Input boundary
+
+KnowledgeCraft should keep raw user inputs separate from generated workflow state.
+
+Recommended project convention:
+
+```text
+<project>/
+├── papers/                         # user-provided research sources
+├── .opencode/skills/               # reusable KnowledgeCraft skills
+└── .knowledgecraft/                # generated state/artifacts
+```
+
+The default research input convention is:
+
+```text
+./papers/
+```
+
+A source can also remain anywhere else if the user supplies its explicit path.
+
+The important boundary is:
+
+```text
+papers/ or explicit source path
+        ↓
+      INPUT
+
+.knowledgecraft/
+        ↓
+GENERATED STATE / OUTPUT
+```
+
+`research-library` owns source registration, deterministic identity, path tracking, extraction, duplicate/revision detection, and lifecycle state.
+
+Raw papers should not be manually stored in generated artifact directories such as:
+
+```text
+.knowledgecraft/research/grounded/
+.knowledgecraft/research/insights/
+```
+
+The repository's `papers/.gitignore` convention is intended to reduce accidental commits of local/copyrighted/private research files.
+
 ## Core lifecycle
 
 KnowledgeCraft uses the following primary research-to-publication lifecycle:
